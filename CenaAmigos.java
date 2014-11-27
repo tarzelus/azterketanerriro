@@ -58,7 +58,7 @@ public static void main (String args[]) throws IOException{
 		}
 		//escribir en el fichero-----------------------------------------------------------
 
-		try {//para escribir en el fichero
+		try {
 			String ruta = "/home/zubiri/Proyectosjava/azterketanerriro/receta.txt";
  			File archivo2 = new File(ruta);
 			FileWriter fw = new FileWriter(archivo2);
@@ -81,36 +81,47 @@ public static void main (String args[]) throws IOException{
            	System.out.println(ex.getMessage());
        	}
 
-
+       	//Lectura del fichero---------------------------------------------------
        	try{
-			File listaRecetas2 = new File("/home/zubiri/Proyectosjava/azterketanerriro/receta.txt");
-			FileInputStream fis = new FileInputStream(listaRecetas2);
-	        InputStreamReader isr = new InputStreamReader(fis, "UTF8");
-	        BufferedReader br = new BufferedReader(isr);
+			String ruta = "/home/zubiri/Proyectosjava/azterketanerriro/receta.txt";
+ 			File archivo2 = new File(ruta);
+			FileReader leer2 = new FileReader (archivo2);
+			BufferedReader bf2 = new BufferedReader(leer2);
+			String salida2 = bf2.readLine();
 
-	        String linea;
-	        linea = br.readLine();
-	        String [] campos = null;
-	        System.out.println("\nTus recetas...");
-	        while(linea!=null){
-	        	campos = linea.split(";");
-	        	System.out.println("--------------------------------");
-	        	System.out.println("Nombre: "+campos[0]);
-	       		System.out.println("Descripcion: "+campos[2]);
-	       		String ingre = campos[1];
-	       		campos = ingre.split("#");
-	       		for(int x=0; x<campos.length; x++){
-	       			String ingreAtribSeparados = campos[x];
-	       			String [] campos2 = ingreAtribSeparados.split("\\*");
-	       			System.out.println("Ingredientes: ");
-	       			System.out.println("Nombre: "+campos2[0]);
-	       			System.out.println("Gramos: "+campos2[1]);
-	       			System.out.println("Unidades: "+campos2[2]);
-	       			System.out.println("--------------------------------");
-	       			//System.out.println("¿En gramos?: "+campos2[3]);
+	        
+	        
+	        String [] cortarString = null;	
+	        System.out.println("\nRecetas");
+	        while(salida2!=null){
+	        	//separa el string de la  linea usara el ; como referencia de la separacion
+	        	cortarString = salida2.split(";");
+	        	System.out.println("·····················");
+	        	System.out.println("Nombre de la receta: "+cortarString[0]);
+	       		System.out.println("Preparacion: "+cortarString[2]);
+	       		System.out.println("\n --Ingredientes-- ");
+	       		String ingre = cortarString[1];
+	       		//cortara lo previamente cortado y se ha guardado en la posicion 1 
+	       		cortarString = ingre.split("#");
+	       		//hay que recorrer el string de cortarstring por puede que haya mas de un ingrediente
+	       		for(int x=0; x<cortarString.length; x++){
+	       			String ingreAtribSeparados = cortarString[x];
+	       			//solo quedara cortar los ingredientes y su informacion que estara separado por *
+	       			String [] cortarString2 = ingreAtribSeparados.split("\\*");
+	       			
+	       			System.out.println("Ingrediente: "+cortarString2[0] );
+
+	       			if (cortarString2[3].equalsIgnoreCase("true")){
+	       			System.out.println("Gramos: "+cortarString2[1]);
+	       			} 
+	       			else{ 
+	       			System.out.println("Unidades: "+cortarString2[2]);
+	       			}
+	       			System.out.println("\n");
+	       			
 	       		}
 	       		
-	       		linea = br.readLine();
+	       		salida2 = bf2.readLine();
 	        }
 	        
 	    }catch(Exception ioe){
